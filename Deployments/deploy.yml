@@ -1,24 +1,27 @@
 # Simple deployment used to deploy and manage the app in nigelpoulton/getting-started-k8s:1.0
+# DEPLOYMENT SPEC -----------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-deploy
   labels:
-    app: web
+    app: web #not a pods selector. Not clear what it refers to.
 spec:
   replicas: 5
   selector:
     matchLabels:
-      app: web
+      app: web # should match label in the template section
+  # POD SPEC --------------
   template:
     metadata:
       labels:
         app: web
     spec: 
       terminationGracePeriodSeconds: 1
+  # CONTAINERS SPEC ----------
       containers:
       - name: hello-pod
         image: nigelpoulton/getting-started-k8s:1.0
-        imagePullPolicy: Always
+        imagePullPolicy: Always #alway pull from the registry. Ignore local cached image.
         ports:
         - containerPort: 8080
